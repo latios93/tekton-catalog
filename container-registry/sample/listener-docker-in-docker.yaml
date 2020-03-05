@@ -34,14 +34,14 @@ spec:
     - apiVersion: v1
       kind: PersistentVolumeClaim
       metadata:
-        name: dind-$(uid)-pvc
+        name: dind-pvc
       spec:
         resources:
           requests:
             storage:  5Gi
-        volumeMode: Filesystem
         accessModes:
-          - ReadWriteOnce
+          - ReadWriteMany
+        storageClassName: ibmc-file-retain-silver
     - apiVersion: tekton.dev/v1alpha1
       kind: PipelineRun
       metadata:
@@ -55,7 +55,7 @@ spec:
               name: image-to-build
         params:
           - name: pipeline-pvc
-            value: dind-$(uid)-pvc
+            value: dind-pvc
           - name: repository
             value: $(params.repository)
           - name: branch
