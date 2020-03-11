@@ -5,8 +5,6 @@ metadata:
 spec:
   inputs:
     params:
-      - name: task-pvc
-        description: the output pvc
       - name: domain
         description: the Slack domain to send the message to. If not set, the message will be posted to the Slack integration(s) as defined in the Toolchain.
         default: ''
@@ -25,6 +23,9 @@ spec:
       - name: exitOnError
         description: flag (`true` | `false`) to indicate if the task should fail or continue if unable to process the message or post to Slack.
         default: 'false'
+  workspaces:
+    - name: task-pvc
+      mountPath: /artifacts
   steps:
     - name: post-to-slack
       # tbd: use an image with curl and jq?
